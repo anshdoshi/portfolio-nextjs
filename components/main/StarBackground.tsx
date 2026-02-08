@@ -108,7 +108,7 @@ const StarsCanvas = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (isMobile) return <></>; // No canvas on mobile
+  if (isMobile) return <div className="mobile-stars" />; // CSS animation on mobile
 
   return (
     <div

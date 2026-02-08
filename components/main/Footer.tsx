@@ -1,90 +1,75 @@
 import React from "react";
-import {
-  RxDiscordLogo,
-  RxGithubLogo,
-  RxInstagramLogo,
-  RxTwitterLogo,
-  RxLinkedinLogo,
-} from "react-icons/rx";
-
-import { FaLinkedin, FaYoutube } from "react-icons/fa";
+import { RxGithubLogo } from "react-icons/rx";
+import { FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 
 const Footer = () => {
   return (
-    <div className="w-full h-full bg-transparent text-gray-200 shadow-lg p-[15px] ">
-      <div className="w-full flex flex-col items-center justify-center m-auto">
-        <div className="w-full h-full flex flex-row items-center justify-around flex-wrap">
-          <div className="min-w-[200px] h-auto flex flex-col items-center justify-start">
-            <div className="font-bold text-[16px]">Community</div>
-            <a
-              className="flex flex-row items-center my-[15px] cursor-pointer"
-              href={"https://www.linkedin.com/in/anshdoshi10/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaLinkedin />
-              <span className="text-[15px] ml-[6px]">Linkedin</span>
-            </a>
-            <a
-              href={"https://github.com/anshdoshi"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-row items-center my-[15px] cursor-pointer"
-            >
-              <RxGithubLogo />
-              <span className="text-[15px] ml-[6px]">Github</span>
-            </a>
-            <a
-              href={"https://leetcode.com/u/anshdoshi2305/"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-row items-center my-[15px] cursor-pointer"
-            >
-              <SiLeetcode />
-              <span className="text-[15px] ml-[6px]">Leetcode</span>
-            </a>
+    <footer className="w-full bg-transparent text-gray-200 py-12 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row items-start justify-around gap-10 mb-10">
+          {/* Community Section */}
+          <div className="flex flex-col items-center md:items-start">
+            <h3 className="font-heading font-semibold text-base text-white mb-4">
+              Community
+            </h3>
+            <div className="flex flex-col gap-3">
+              <a
+                href="https://www.linkedin.com/in/anshdoshi10/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-purple-400 transition-colors"
+              >
+                <FaLinkedin className="text-base" />
+                <span>LinkedIn</span>
+              </a>
+              <a
+                href="https://github.com/anshdoshi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-purple-400 transition-colors"
+              >
+                <RxGithubLogo className="text-base" />
+                <span>GitHub</span>
+              </a>
+              <a
+                href="https://leetcode.com/u/anshdoshi2305/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-purple-400 transition-colors"
+              >
+                <SiLeetcode className="text-base" />
+                <span>LeetCode</span>
+              </a>
+            </div>
           </div>
-          {/* <div className="min-w-[200px] h-auto flex flex-col items-center justify-start">
-                    <div className="font-bold text-[16px]">Social Media</div>
-                    <p className="flex flex-row items-center my-[15px] cursor-pointer">
-                        <FaYoutube />
-                        <span className="text-[15px] ml-[6px]">Instagram</span>    
-                    </p>
-                    <p className="flex flex-row items-center my-[15px] cursor-pointer">
-                        <RxGithubLogo />
-                        <span className="text-[15px] ml-[6px]">Twitter</span>    
-                    </p>
-                    <p className="flex flex-row items-center my-[15px] cursor-pointer">
-                        <RxDiscordLogo />
-                        <span className="text-[15px] ml-[6px]">Linkedin</span>    
-                    </p>
-                </div> */}
-          <div className="min-w-[200px] h-auto flex flex-col items-center justify-start">
-            <div className="font-bold text-[16px]">About</div>
-            <p className="flex flex-row items-center my-[15px] cursor-pointer">
-              <span className="text-[15px] ml-[6px]">Become Sponsor</span>
-            </p>
-            <p className="flex flex-row items-center my-[15px] cursor-pointer">
-              <span className="text-[15px] ml-[6px]">Learning about me</span>
-            </p>
-            <a
-              className="flex flex-row items-center my-[15px] cursor-pointer"
-              href="mailto:doshiansh10@gmail.com"
-              style={{ cursor: "pointer" }}
-            >
-              <span className="text-[15px] ml-[6px]">
+
+          {/* About Section */}
+          <div className="flex flex-col items-center md:items-start">
+            <h3 className="font-heading font-semibold text-base text-white mb-4">
+              About
+            </h3>
+            <div className="flex flex-col gap-3">
+              <span className="text-sm text-gray-400">Become Sponsor</span>
+              <span className="text-sm text-gray-400">Learning about me</span>
+              <a
+                href="mailto:doshiansh10@gmail.com"
+                className="text-sm text-gray-400 hover:text-purple-400 transition-colors"
+              >
                 doshiansh10@gmail.com
-              </span>
-            </a>
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="mb-[20px] text-[15px] text-center">
-          &copy; Ansh Doshi 2025 Inc. All rights reserved
+        {/* Copyright */}
+        <div className="pt-6 border-t border-gray-800">
+          <p className="text-sm text-gray-500 text-center">
+            &copy; {new Date().getFullYear()} Ansh Doshi. All rights reserved.
+          </p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

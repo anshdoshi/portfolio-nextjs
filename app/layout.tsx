@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import StarsCanvas from "@/components/main/StarBackground";
 import Navbar from "@/components/main/Navbar";
 import Footer from "@/components/main/Footer";
-import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] });
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
 
-// export const metadata: Metadata = {
-//   title: "Ansh Doshi",
-//   description: "Ansh Doshi Full Stack Developer",
-//   icons: {
-//     icon: "/favicon.ico",
-//   },
-// };
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Ansh Doshi | Full Stack Developer",
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-        icon: "/favicon.ico",
+    icon: "/favicon.ico",
   },
 };
 
@@ -56,10 +59,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      
+    <html lang="en" className={`${plusJakarta.variable} ${spaceGrotesk.variable}`}>
       <body
-        className={`${inter.className} bg-[#030014] overflow-y-scroll overflow-x-hidden`}
+        className="font-sans bg-[#030014] overflow-y-scroll overflow-x-hidden antialiased"
       >
         <StarsCanvas />
         <Navbar />
