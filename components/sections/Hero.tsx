@@ -26,9 +26,9 @@ export default function Hero() {
       <div className="page-x grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-7">
           <p className="eyebrow fade-in flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span className="text-fg">{person.name}</span>
-            <span className="h-px w-6 bg-line-strong" aria-hidden />
-            <span>{person.subtitle}</span>
+            <span className="text-accent-gradient text-[0.82rem] font-semibold tracking-[0.22em]">{person.name}</span>
+            <span className="h-px w-8 bg-signal/40" aria-hidden />
+            <span className="text-fg/80 tracking-[0.18em]">{person.subtitle}</span>
           </p>
 
           <h1 id="hero-title" className="word-rise mt-7 text-display-xl font-medium text-fg">

@@ -125,7 +125,7 @@ export default function Navbar() {
         <nav aria-label="Primary" className="page-x flex h-full items-center justify-between gap-6">
           <a href="#about-me" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
             <Logo className="h-8 w-8 transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg]" />
-            <span className="font-mono text-[0.78rem] uppercase tracking-[0.2em] text-fg">
+            <span className="text-accent-gradient font-mono text-[0.82rem] font-semibold uppercase tracking-[0.22em]">
               {person.name}
             </span>
           </a>
