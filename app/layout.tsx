@@ -1,72 +1,94 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import StarsCanvas from "@/components/main/StarBackground";
-import Navbar from "@/components/main/Navbar";
-import Footer from "@/components/main/Footer";
+import { person, site } from "@/content/profile";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
+const serif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
+const description =
+  "Ansh Doshi — full stack developer (TypeScript, React, Next.js, Node.js, PostgreSQL). Identity, SSO, RBAC, Typesense search over 300K+ profiles and human-reviewed LLM features for a dealer SaaS platform serving 1,000+ dealerships.";
 
 export const metadata: Metadata = {
-  title: "Ansh Doshi | Full Stack Developer",
-  description:
-    "Portfolio of Ansh Doshi - React, Node, Next.js, Prisma , MySQL , MongoDb ,Javascript Expert.",
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${person.name} — ${person.title}`,
+    template: `%s — ${person.name}`,
+  },
+  description,
   keywords: [
     "Ansh Doshi",
     "Full Stack Developer",
+    "Software Engineer",
+    "TypeScript",
     "React",
-    "Node.js",
-    "Javascript Expert",
     "Next.js",
-    "Portfolio",
+    "Node.js",
+    "PostgreSQL",
+    "Typesense",
+    "SSO",
+    "RBAC",
+    "LLM",
+    "India",
   ],
+  authors: [{ name: person.name, url: site.url }],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Ansh Doshi | Portfolio",
-    description:
-      "Portfolio of Ansh Doshi - React, Node, Next.js, Prisma , MySQL , MongoDb ,Javascript Expert.",
-    url: "https://anshdoshi.vercel.app",
-    siteName: "Ansh Portfolio",
-    images: [
-      {
-        url: "https://anshdoshi.vercel.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Ansh Doshi Portfolio",
-      },
-    ],
     type: "website",
+    url: site.url,
+    siteName: person.name,
+    title: `${person.name} — ${person.title}`,
+    description,
   },
-  icons: {
-    icon: "/favicon.ico",
+  twitter: {
+    card: "summary_large_image",
+    title: `${person.name} — ${person.title}`,
+    description,
   },
+  icons: { icon: "/favicon.ico" },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: "#09090D",
+  colorScheme: "dark",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: person.name,
+  jobTitle: person.title,
+  email: `mailto:${person.email}`,
+  url: site.url,
+  address: { "@type": "PostalAddress", addressCountry: "IN" },
+  sameAs: [person.links.github, person.links.linkedin, person.links.leetcode],
+  worksFor: { "@type": "Organization", name: "Autoverse AI" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "GLS University" },
+  knowsAbout: ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Typesense", "SSO", "RBAC", "LLM integration"],
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${spaceGrotesk.variable}`}>
-      <body
-        className="font-sans bg-[#030014] overflow-y-scroll overflow-x-hidden antialiased"
-      >
-        <StarsCanvas />
-        <Navbar />
+    <html
+      lang="en"
+      className={`${sans.variable} ${mono.variable} ${serif.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
+        {/* Enables scroll-reveal styles only when JS runs; without JS all content stays visible. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
-        <Footer />
       </body>
     </html>
   );
