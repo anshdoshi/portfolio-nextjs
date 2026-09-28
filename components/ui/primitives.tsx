@@ -29,7 +29,7 @@ export function SectionHeading({
     <header className={cn("grid gap-6 md:grid-cols-12 md:gap-10", className)}>
       <div className="md:col-span-3" data-reveal>
         <p className="eyebrow flex items-center gap-3">
-          <span className="text-signal">{index}</span>
+          <span className="text-signal text-signal-glow">{index}</span>
           <span className="h-px w-8 bg-line-strong" aria-hidden />
           {eyebrow}
         </p>
@@ -52,7 +52,7 @@ export function Chip({ children, className }: { children: ReactNode; className?:
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-line px-2.5 py-1 font-mono text-[0.7rem] leading-none tracking-wide text-muted",
+        "inline-flex items-center rounded-full border border-line px-2.5 py-1 font-mono text-[0.7rem] leading-none tracking-wide text-muted transition-[border-color,color,box-shadow] duration-300 hover:border-signal/40 hover:text-fg hover:shadow-[0_0_10px_-2px_rgb(var(--signal)/0.25)]",
         className,
       )}
     >

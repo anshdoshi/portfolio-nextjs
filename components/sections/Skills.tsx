@@ -22,10 +22,16 @@ export default function Skills() {
               key={g.group}
               data-reveal
               style={delay(i, 50)}
-              className="group grid gap-3 border-t border-line py-6 last:border-b sm:grid-cols-[11rem_1fr] sm:gap-8"
+              className="group relative grid gap-3 border-t border-line py-6 last:border-b sm:grid-cols-[11rem_1fr] sm:gap-8"
             >
+              {/* Animated left accent bar */}
+              <span
+                aria-hidden
+                className="absolute -left-2.5 top-0 w-px origin-top scale-y-0 bg-signal/60 transition-transform duration-500 ease-out-expo group-hover:scale-y-100"
+                style={{ height: "100%" }}
+              />
               <dt className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-signal">
-                <span className="text-faint">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-faint transition-colors duration-300 group-hover:text-signal/60">{String(i + 1).padStart(2, "0")}</span>
                 {g.group}
               </dt>
               <dd className="flex flex-wrap gap-x-1 gap-y-2">

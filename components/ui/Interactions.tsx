@@ -25,6 +25,8 @@ export default function Interactions() {
     targets.forEach((el) => io.observe(el));
 
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     let frame = 0;
     const onMove = (e: PointerEvent) => {
       const card = (e.target as Element | null)?.closest?.<HTMLElement>(".spotlight");
@@ -58,7 +60,33 @@ export default function Interactions() {
       el.addEventListener("pointerleave", tiltLeave);
     });
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Magnetic hover: [data-magnetic] elements subtly follow the cursor
+    const magnetics = finePointer && !reduceMotion.matches
+      ? Array.from(document.querySelectorAll<HTMLElement>("[data-magnetic]"))
+      : [];
+    let magFrame = 0;
+    const magneticMove = (e: PointerEvent) => {
+      const el = e.currentTarget as HTMLElement;
+      cancelAnimationFrame(magFrame);
+      magFrame = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = ((e.clientX - cx) * 0.28).toFixed(1);
+        const dy = ((e.clientY - cy) * 0.28).toFixed(1);
+        el.style.setProperty("--dx", `${dx}px`);
+        el.style.setProperty("--dy", `${dy}px`);
+      });
+    };
+    const magneticLeave = (el: HTMLElement) => {
+      el.style.setProperty("--dx", "0px");
+      el.style.setProperty("--dy", "0px");
+    };
+    magnetics.forEach((el) => {
+      el.addEventListener("pointermove", magneticMove);
+      el.addEventListener("pointerleave", () => magneticLeave(el));
+    });
+
     const onClick = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const link = (e.target as Element | null)?.closest?.<HTMLAnchorElement>('a[href^="#"]');
@@ -93,7 +121,11 @@ export default function Interactions() {
         el.removeEventListener("pointermove", tiltMove);
         el.removeEventListener("pointerleave", tiltLeave);
       });
+      magnetics.forEach((el) => {
+        el.removeEventListener("pointermove", magneticMove);
+      });
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(magFrame);
     };
   }, []);
 

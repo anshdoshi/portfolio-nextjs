@@ -1,8 +1,7 @@
 import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
-import { person, site, stats } from "@/content/profile";
+import { person, site } from "@/content/profile";
 import { ButtonLink } from "@/components/ui/primitives";
 import TerminalCard from "@/components/visuals/TerminalCard";
-import CountUp from "@/components/ui/CountUp";
 
 const headline: { text: string; accent?: boolean }[][] = [
   [{ text: "I" }, { text: "build" }, { text: "the" }, { text: "systems" }],
@@ -18,8 +17,13 @@ export default function Hero() {
       className="relative overflow-hidden pb-20 pt-[calc(var(--nav-h)+3.5rem)] sm:pb-24 lg:pb-28 lg:pt-[calc(var(--nav-h)+5rem)]"
     >
       <div className="grid-backdrop pointer-events-none absolute inset-0 -z-10" aria-hidden />
+      {/* Animated ambient orbs */}
       <div
-        className="pointer-events-none absolute -top-40 right-[-10%] -z-10 h-[560px] w-[560px] rounded-full bg-signal/[0.10] blur-[130px]"
+        className="animate-float pointer-events-none absolute -top-40 right-[-10%] -z-10 h-[560px] w-[560px] rounded-full bg-signal/[0.10] blur-[130px]"
+        aria-hidden
+      />
+      <div
+        className="animate-float-alt pointer-events-none absolute bottom-[-10%] left-[-8%] -z-10 h-[400px] w-[400px] rounded-full bg-signal-2/[0.07] blur-[110px]"
         aria-hidden
       />
 
@@ -52,16 +56,21 @@ export default function Hero() {
           </h1>
 
           <p className="fade-in mt-8 max-w-xl text-base leading-relaxed text-muted sm:text-lg" style={{ ["--d" as string]: "650ms" }}>
+            <span className="text-accent-gradient font-semibold">{person.heroLedeAccent}</span>
             {person.heroLede}
           </p>
 
           <div className="fade-in mt-10 flex flex-wrap items-center gap-3" style={{ ["--d" as string]: "780ms" }}>
-            <ButtonLink href="#projects" icon={<FiArrowDown aria-hidden />}>
-              See selected work
-            </ButtonLink>
-            <ButtonLink href={site.resumePdf} external variant="ghost" icon={<FiArrowUpRight aria-hidden />}>
-              Resume (PDF)
-            </ButtonLink>
+            <span data-magnetic>
+              <ButtonLink href="#projects" icon={<FiArrowDown aria-hidden />}>
+                See selected work
+              </ButtonLink>
+            </span>
+            <span data-magnetic>
+              <ButtonLink href={site.resumePdf} external variant="ghost" icon={<FiArrowUpRight aria-hidden />}>
+                Resume (PDF)
+              </ButtonLink>
+            </span>
             <a
               href={`mailto:${person.email}`}
               className="inline-flex min-h-[44px] items-center px-2 text-sm text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-fg hover:decoration-signal"
@@ -74,24 +83,6 @@ export default function Hero() {
         <div className="fade-in lg:col-span-5" style={{ ["--d" as string]: "300ms" }}>
           <TerminalCard />
         </div>
-      </div>
-
-      <div className="page-x mt-20 lg:mt-24">
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
-          {stats.map((s, i) => (
-            <div
-              key={s.label}
-              data-reveal
-              style={{ ["--d" as string]: `${i * 80}ms` }}
-              className="flex flex-col bg-ink p-5 sm:p-6 lg:p-8"
-            >
-              <dt className="order-2 mt-2 text-sm leading-snug text-muted">{s.label}</dt>
-              <dd className="order-1 text-4xl font-medium tracking-tight text-fg sm:text-5xl">
-                <CountUp value={s.value} />
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
     </section>
   );
