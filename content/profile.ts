@@ -29,8 +29,9 @@ export const person = {
   },
   summary:
     "Full stack developer with 4+ years of experience in TypeScript, React, Next.js, Node.js and PostgreSQL. Currently own identity, access control and candidate search for a four-product dealer SaaS platform serving 1,000+ dealerships: mobile-OTP login, cross-product SSO, role-based permissions, Typesense search over 300K+ profiles and human-reviewed LLM features. Previously owned the React layer for two client platforms and mentored two junior developers.",
+  heroLedeAccent: "4+ years",
   heroLede:
-    "I own identity, access control and candidate search for a four-product dealer SaaS platform used by 1,000+ dealerships — and I ship the AI features on top of it with a human in the loop.",
+    " of experience building full-stack systems — identity, access control, search infrastructure, and AI features shipped with a human in the loop.",
 };
 
 export const stats = [
@@ -88,7 +89,7 @@ export const experience: Experience[] = [
     start: "Jun 2025",
     end: "Present",
     summary:
-      "Own identity, access control and candidate search across a four-product dealer SaaS platform serving 1,000+ dealerships, 88 automotive brands and 300K+ candidate profiles in 28 states and union territories.",
+      "Own identity, access control and candidate search across a four-product dealer SaaS platform serving 1,000+ dealerships and 300K+ candidate profiles in 28 states and union territories.",
     bullets: [
       "Replaced three incompatible login systems (passwords, Keycloak and per-product OTP) with a single mobile-OTP identity layer, with per-code attempt limits and lockout after repeated failed sign-ins.",
       "Fixed an intermittent cross-product SSO failure: a meta refresh raced a location.assign() call and replayed single-use handoff codes. Found it in 4,000+ production auth codes over 30 days (up to 48% unused on one portal).",

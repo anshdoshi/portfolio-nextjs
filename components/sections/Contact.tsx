@@ -16,6 +16,10 @@ export default function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden border-t border-line py-24 sm:py-32">
       <div className="grid-backdrop pointer-events-none absolute inset-0 -z-10" aria-hidden />
+      <div
+        className="animate-float pointer-events-none absolute -top-32 right-[-5%] -z-10 h-[480px] w-[480px] rounded-full bg-signal/[0.08] blur-[120px]"
+        aria-hidden
+      />
       <div className="page-x">
         <p data-reveal className="eyebrow flex items-center gap-3">
           <span className="text-signal">07</span>

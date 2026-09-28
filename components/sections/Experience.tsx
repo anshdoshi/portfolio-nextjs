@@ -24,7 +24,7 @@ export default function Experience() {
               <li key={job.company} className="relative pl-8 sm:pl-12">
                 <span
                   aria-hidden
-                  className="absolute left-0 top-2 h-[9px] w-[9px] -translate-x-1/2 rounded-full border border-signal bg-ink"
+                  className="ring-pulse absolute left-0 top-2 h-[9px] w-[9px] -translate-x-1/2 rounded-full border border-signal bg-ink"
                 />
                 <div data-reveal className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
                   <h3 className="text-2xl font-medium tracking-tight text-fg">

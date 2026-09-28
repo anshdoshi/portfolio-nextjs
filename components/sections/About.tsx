@@ -20,7 +20,7 @@ export default function About() {
         />
 
         <div className="mt-14 grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-3" data-reveal>
+          <div className="md:col-span-3" data-reveal="left">
             <dl className="space-y-6 text-sm">
               <div>
                 <dt className="eyebrow">Currently</dt>
@@ -74,7 +74,7 @@ export default function About() {
               AI features that a human approves first.
             </p>
           </div>
-          <div className="md:col-span-7 lg:col-span-5" data-reveal style={delay(1)}>
+          <div className="md:col-span-7 lg:col-span-5" data-reveal="right" style={delay(1)}>
             <SystemFlow />
           </div>
         </div>
