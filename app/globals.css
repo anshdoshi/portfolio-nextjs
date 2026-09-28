@@ -2,138 +2,341 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base Typography */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold tracking-tight;
+  :root {
+    /* Space-separated RGB so Tailwind can apply alpha: rgb(var(--x) / 0.5) */
+    --ink: 9 9 13;
+    --surface: 16 16 22;
+    --raised: 23 23 31;
+    --fg: 237 236 244;
+    --muted: 163 161 181;
+    --faint: 114 112 133;
+    --signal: 167 139 250; /* violet — primary accent */
+    --signal-2: 232 121 249; /* fuchsia — only used inside accent gradients */
+
+    --nav-h: 4.25rem;
+    color-scheme: dark;
+  }
+
+  html {
+    /* Smooth scrolling for in-page links is done in <Interactions>, so initial #anchor loads jump precisely. */
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
-    @apply text-gray-100 leading-relaxed;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply bg-ink font-sans text-fg antialiased;
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgb(var(--signal) / 0.9);
+    color: rgb(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--signal));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Sections focused after in-page navigation shouldn't draw a ring around themselves */
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
-.Welcome-text {
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.4),
-      rgba(255, 255, 255, 0.4)
-    ),
-    linear-gradient(90.01deg, #e59cff 0.01%, #ba9cff 50.01%, #9cb2ff 100%);
-  background-blend-mode: normal, screen;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.Welcome-box {
-  isolation: isolate;
-  overflow: hidden;
-  align-items: center;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border-radius: 32px;
-  box-shadow: inset 0 -7px 11px #a48fff1f;
-  display: flex;
 
-  position: relative;
-  width: -moz-max-content;
-  width: max-content;
-  transition: 0.45s cubic-bezier(0.6, 0.6, 0, 1) box-shadow;
+@layer components {
+  .page-x {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-10;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[0.72rem] uppercase tracking-[0.18em] text-muted;
+  }
+
+  .hairline {
+    @apply border-line;
+  }
+
+  /* Subtle engineering grid used behind the hero and contact sections */
+  .grid-backdrop {
+    background-image: linear-gradient(rgb(var(--fg) / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--fg) / 0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
+  }
+
+  /* Cursor-follow spotlight; --mx / --my are set by <Spotlight> */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--signal) / 0.075),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  /* SVG diagram flow along paths */
+  .flow-path {
+    stroke-dasharray: 4 7;
+    animation: flow 1.6s linear infinite;
+  }
+  @keyframes flow {
+    to {
+      stroke-dashoffset: -22;
+    }
+  }
+
+  /* Scroll reveal: only hidden once JS has marked <html class="js">, so no-JS visitors see everything */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--d, 0ms);
+  }
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero headline: words rise in on load (pure CSS) */
+  .word-rise > span {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .word-rise > span > span {
+    display: inline-block;
+    animation: word-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes word-rise {
+    from {
+      transform: translate3d(0, 105%, 0);
+    }
+    to {
+      transform: none;
+    }
+  }
+  .fade-in {
+    animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-reveal] {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------- Hero terminal card ---------- */
+
+  /* Rotating gradient border */
+  .glow-border {
+    position: relative;
+    border-radius: 1.25rem;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--angle),
+      rgb(var(--fg) / 0.08) 0deg,
+      rgb(var(--signal) / 0.95) 50deg,
+      rgb(var(--signal-2) / 0.8) 95deg,
+      rgb(var(--fg) / 0.08) 140deg,
+      rgb(var(--fg) / 0.08) 360deg
+    );
+    animation: spin-angle 6s linear infinite;
+  }
+  .glow-border::after {
+    content: "";
+    position: absolute;
+    inset: -30px;
+    z-index: -1;
+    border-radius: 2rem;
+    background: radial-gradient(60% 50% at 70% 20%, rgb(var(--signal) / 0.2), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+  }
+  @keyframes spin-angle {
+    to {
+      --angle: 360deg;
+    }
+  }
+
+  /* 3D tilt driven by --rx / --ry (set in <Interactions>) */
+  [data-tilt] {
+    transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* Typed command: width grows one monospace character at a time */
+  .term-line {
+    animation: fade-in-fast 0.01s linear both;
+    animation-delay: var(--at, 0ms);
+  }
+  .term-typed {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+    width: calc(var(--n) * 1ch);
+    animation: typing var(--dur) steps(var(--n), end) both;
+    animation-delay: var(--at, 0ms);
+  }
+  .term-caret {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1.05em;
+    margin-left: 1px;
+    vertical-align: -0.15em;
+    background: rgb(var(--signal));
+    animation: blink 1s steps(1) infinite, caret-off 0.01s linear both;
+    animation-delay: 0ms, var(--off, 0ms);
+  }
+  .term-caret.is-last {
+    animation: blink 1s steps(1) infinite;
+  }
+  .term-out {
+    animation: fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--at, 0ms);
+  }
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes caret-off {
+    to {
+      visibility: hidden;
+    }
+  }
+  @keyframes fade-in-fast {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 6px, 0);
+    }
+  }
+
+  /* Count-up numbers: hidden only until JS has set their starting value */
+  .js [data-count]:not([data-ready]) {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow-border,
+    .term-line,
+    .term-typed,
+    .term-out,
+    .term-caret {
+      animation-delay: 0ms !important;
+    }
+    .term-caret:not(.is-last) {
+      visibility: hidden;
+    }
+    [data-tilt] {
+      transform: none !important;
+    }
+  }
+
+  /* Print (used by /resume) */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }
 }
 
-.button-primary {
-  background: linear-gradient(
-      180deg,
-      rgba(60, 8, 126, 0) 0%,
-      rgba(60, 8, 126, 0.32) 100%
-    ),
-    rgba(113, 47, 255, 0.12);
-  box-shadow: inset 0 0 12px #bf97ff3d;
-}
-.button-primary:hover {
-  background: linear-gradient(
-      180deg,
-      rgba(60, 8, 126, 0) 0%,
-      rgba(60, 8, 126, 0.42) 100%
-    ),
-    rgba(113, 47, 255, 0.24);
-  box-shadow: inset 0 0 12px #bf97ff70;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Violet → fuchsia text for the italic accent words */
+  .text-accent-gradient {
+    background-image: linear-gradient(100deg, rgb(var(--signal)) 10%, rgb(var(--signal-2)) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-right: 0.08em; /* keeps the italic overhang from clipping */
+  }
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.scrollbar-hidden {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
-}
-
-
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Mobile Star Animation Fallback */
-.mobile-stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 20;
-  overflow: hidden;
-}
-
-.mobile-stars::before,
-.mobile-stars::after {
+/* Film-grain noise overlay (static SVG, no JS) */
+.noise::after {
   content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-    radial-gradient(2px 2px at 160px 120px, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 230px 80px, #fff, transparent),
-    radial-gradient(2px 2px at 300px 200px, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1px 1px at 50px 160px, #fff, transparent),
-    radial-gradient(2px 2px at 120px 240px, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 200px 300px, #fff, transparent),
-    radial-gradient(2px 2px at 280px 350px, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 350px 250px, #fff, transparent),
-    radial-gradient(2px 2px at 400px 100px, rgba(255, 255, 255, 0.7), transparent);
-  background-repeat: repeat;
-  background-size: 400px 400px;
-  animation: mobileStarsMove 60s linear infinite;
-}
-
-.mobile-stars::after {
-  background-size: 300px 300px;
-  animation: mobileStarsMoveSlow 90s linear infinite;
-  opacity: 0.6;
-}
-
-@keyframes mobileStarsMove {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  100% {
-    transform: translateY(-400px) rotate(10deg);
-  }
-}
-
-@keyframes mobileStarsMoveSlow {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  100% {
-    transform: translateY(-300px) rotate(-5deg);
-  }
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
