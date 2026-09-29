@@ -53,7 +53,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           <h3 id={`product-${product.id}-title`} className="mt-4 text-3xl font-medium tracking-tight text-fg">
             {product.name}
           </h3>
-          <p className="mt-1 font-serif text-lg italic text-muted">{product.tagline}</p>
+          <p className="mt-2 text-lg font-semibold tracking-tight text-fg/85 sm:text-xl">{product.tagline}</p>
           <p className="mt-4 text-[0.95rem] leading-relaxed text-muted">{product.description}</p>
 
           {product.contribution ? (
