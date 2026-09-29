@@ -14,7 +14,7 @@ const serif = Instrument_Serif({
 });
 
 const description =
-  "Ansh Doshi — full stack developer (TypeScript, React, Next.js, Node.js, PostgreSQL). Identity, SSO, RBAC, Typesense search over 300K+ profiles and human-reviewed LLM features for a dealer SaaS platform serving 1,000+ dealerships.";
+  "Ansh Doshi — full stack developer with 4+ years of experience in TypeScript, React, Next.js, Node.js and PostgreSQL. Building production systems across identity & SSO, search infrastructure, AI integrations and scalable backend APIs.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

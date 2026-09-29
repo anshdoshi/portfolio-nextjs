@@ -35,10 +35,10 @@ export const person = {
 };
 
 export const stats = [
-  { value: "4+", label: "Years building for production" },
-  { value: "1,000+", label: "Dealerships on the platform" },
-  { value: "300K+", label: "Candidate profiles searchable" },
-  { value: "88", label: "Automotive brands" },
+  { value: "4+", label: "Years full-stack experience" },
+  { value: "10+", label: "Production systems shipped" },
+  { value: "3+", label: "Companies & product teams" },
+  { value: "15+", label: "Technologies in production" },
 ];
 
 export const focusAreas = [
